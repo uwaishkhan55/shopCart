@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 
 const db = new Sequelize({
   dialect: 'sqlite',
-  storage: './test.sqlite',
+  storage: __dirname+'/tests.db',
 })
 const Users = db.define('user', {
   username: {
