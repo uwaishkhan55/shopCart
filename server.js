@@ -56,14 +56,13 @@ app.get('/giveCart',async (req,res)=>
          
        }
      )
-     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
      res.send(item)
-     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+   
 })
-
+const PORT=process.env.PORT||99999
 db.sync()
   .then(() => {
-    app.listen(9999, () => {
+    app.listen(PORT, () => {
       console.log('Server started on http://localhost:9876')
     })
   })
