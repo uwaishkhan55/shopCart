@@ -3,7 +3,7 @@ const app = express()
 const { db } = require('./db')
 const session =  require('express-session')
 const passport = require('./passport')
-const {Products}=require('./db')
+const {Products,CartItems}=require('./db')
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.set('view engine', 'hbs')
@@ -28,28 +28,37 @@ app.use('/login', (require('./routes/login').route))
 app.use('/signup', (require('./routes/signup').route))
 app.use('/profile', (require('./routes/profile').route))
 app.use('/cart', (require('./routes/cart').route))
-app.post('/addCart',(req,res)=>
+app.post('/addCart',async (req,res)=>
 {
-  req.session.storage=req.body.id
-  
   if (!req.user) {
-    console.log("not a user"+req.url)
     return res.redirect('/login')
     
   }
-  console.log(" a user" +req.url)
-       res.redirect('/cart')
+  
+  let item = await CartItems.create(
+    {
+         user_id:req.user.id,
+         product_id:req.body.id
+    }
+  )
 })
 app.get('/giveCart',async (req,res)=>
 {
-      let item=req.session.storage||1
-      let item1 = await Products.findAll({
-        where:
-        {
-          id:item
-        }
-      })
-      res.send(item1)
+     let item = await CartItems.findAll(
+       {
+        include: [{
+          model: Products
+         }],
+         where:
+         {
+            user_id:req.user.id
+         }
+         
+       }
+     )
+     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+     res.send(item)
+     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
 })
 
 db.sync()

@@ -8,8 +8,9 @@ function createProduct(product)
     <div class="card-body">
       <h5 class="card-title">$${product.price}</h5>
       <p class="card-text mine">${product.name}</p>
-      
-     <a href="http://localhost:9999/cart" <button onClick="addCart()" id="${product.id}" class="btn btn-primary">Buy Now</button></a>
+      <form method="GET" action="/cart">
+      <a href="http://localhost:9999/cart" <button onClick="addCart()" id="${product.id}" class="btn btn-primary">Buy Now</button></a></form>
+   
      
     </div>
   </div>`)

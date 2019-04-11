@@ -60,7 +60,16 @@ route.get('/', async (req, res) => {
  res.send({item})
 //  console.log(item)
 })
-
+route.post('/New', async (req,res)=>
+{
+	const newProd = await Products.create({
+		img:req.body.img,
+		name:req.body.name,
+		price:req.body.price,
+		quantity:req.body.Quantity
+})
+res.redirect('/addproduct')
+})
 route.post('/', async (req, res) => {
 
   const newProd = await Products.create({

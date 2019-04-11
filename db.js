@@ -7,8 +7,7 @@ const db = new Sequelize({
 const Users = db.define('user', {
   username: {
     type: Sequelize.STRING(30),
-    unique: true,
-    allowNull: false
+    unique: true
   },
   password: {
     type: Sequelize.STRING(30),
@@ -65,18 +64,25 @@ const Products = db.define('product', {
 // })
 
 const CartItems = db.define('cartitem', {
+  user_id:Sequelize.INTEGER,
+  product_id:Sequelize.INTEGER,
   quantity: {
     type: Sequelize.INTEGER,
     defaultValue: 1
   },
 })
 
-CartItems.belongsTo(Users)
-Users.hasMany(CartItems)
 
-CartItems.belongsTo(Products)
-Products.hasMany(CartItems)
+// CartItems.belongsTo(Users)
+// CartItems.belongsTo(Products)
+// Products.hasMany(CartItems, {foreignKey: {unique: true}})
+// Users.hasMany(CartItems, {foreignKey: {unique: true}})
 
+
+Users.hasMany(CartItems, {foreignKey: 'user_id'})
+CartItems.belongsTo(Users, {foreignKey: 'user_id'})
+Products.hasMany(CartItems, {foreignKey: 'product_id'})
+CartItems.belongsTo(Products, {foreignKey: 'product_id'})
 db.sync(()=>
 {
     console.log('working fine')
