@@ -28,6 +28,7 @@ app.use('/login', (require('./routes/login').route))
 app.use('/signup', (require('./routes/signup').route))
 app.use('/profile', (require('./routes/profile').route))
 app.use('/cart', (require('./routes/cart').route))
+const PORT= process.env.PORT || 9999
 app.post('/addCart',async (req,res)=>
 {
   if (!req.user) {
@@ -59,7 +60,6 @@ app.get('/giveCart',async (req,res)=>
      res.send(item)
    
 })
-const PORT=process.env.PORT||99999
 db.sync()
   .then(() => {
     app.listen(PORT, () => {
